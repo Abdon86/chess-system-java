@@ -1,5 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
@@ -9,8 +12,11 @@ import chess.pieces.Rook;
 public class ChessMatch {// Partida de xadrez
 
 	private int turn;
-	private Color currentPlayer; 
+	private Color currentPlayer;
 	private Board board;
+
+	private List<Piece> piecesOnTheBoard = new ArrayList<Piece>();
+	private List<Piece> capturedPieces = new ArrayList<Piece>();
 
 	public ChessMatch() {
 		board = new Board(8, 8);
@@ -18,15 +24,14 @@ public class ChessMatch {// Partida de xadrez
 		currentPlayer = Color.White;
 		initialSetup();
 	}
-	
+
 	public int getTurn() {
 		return turn;
 	}
-	
+
 	public Color getCurrentPlayer() {
 		return currentPlayer;
 	}
-	
 
 	public ChessPiece[][] getPieces() {
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
@@ -37,14 +42,12 @@ public class ChessMatch {// Partida de xadrez
 		}
 		return mat;
 	}
-	
-	public boolean[][] possibleMoves(ChessPosition sourcePosition){
+
+	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
 		Position position = sourcePosition.toPosition();
 		validateSourcePosition(position);
 		return board.piece(position).possibleMoves();
 	}
-	
-	
 
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition();
@@ -60,6 +63,12 @@ public class ChessMatch {// Partida de xadrez
 		Piece p = board.removePiece(source);
 		Piece capturedPiece = board.removePiece(target);
 		board.placePiece(p, target);
+
+		if (capturedPiece != null) {
+			piecesOnTheBoard.remove(capturedPiece);
+			capturedPieces.add(capturedPiece);
+		}
+
 		return capturedPiece;
 	}
 
@@ -74,22 +83,21 @@ public class ChessMatch {// Partida de xadrez
 			throw new ChessException("There is no possible moves for the chosen piece");
 		}
 	}
-	
+
 	private void validateTargetPosition(Position source, Position target) {
 		if (!board.piece(source).possibleMove(target)) {
 			throw new ChessException("The chosen piece can't move to target position");
 		}
 	}
-	
+
 	private void nextTurn() {
 		turn++;
 		currentPlayer = (currentPlayer == Color.White) ? Color.Black : Color.White;
 	}
-	
-	
 
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+		piecesOnTheBoard.add(piece);
 	}
 
 	private void initialSetup() {
