@@ -13,6 +13,7 @@ import chess.pieces.Bishop;
 import chess.pieces.King;
 import chess.pieces.Knight;
 import chess.pieces.Pawn;
+import chess.pieces.Queen;
 import chess.pieces.Rook;
 
 public class ChessMatch {// Partida de xadrez
@@ -203,6 +204,7 @@ public class ChessMatch {// Partida de xadrez
 		placeNewPiece('a', 1, new Rook(board, Color.White));
 		placeNewPiece('b', 1, new Knight(board, Color.White));
 		placeNewPiece('c', 1, new Bishop(board, Color.White));
+		placeNewPiece('d', 1, new Queen(board, Color.White));
 		placeNewPiece('e', 1, new King(board, Color.White));
 		placeNewPiece('f', 1, new Bishop(board, Color.White));
 		placeNewPiece('g', 1, new Knight(board, Color.White));
@@ -219,6 +221,7 @@ public class ChessMatch {// Partida de xadrez
 		placeNewPiece('a', 8, new Rook(board, Color.Black));
 		placeNewPiece('b', 8, new Knight(board, Color.Black));
 		placeNewPiece('c', 8, new Bishop(board, Color.Black));
+		placeNewPiece('d', 8, new Queen(board, Color.Black));
 		placeNewPiece('e', 8, new King(board, Color.Black));
 		placeNewPiece('f', 8, new Bishop(board, Color.Black));
 		placeNewPiece('g', 8, new Knight(board, Color.Black));
